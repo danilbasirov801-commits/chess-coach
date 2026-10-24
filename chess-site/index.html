@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гамбит — шахматный салон</title>
+<meta name="description" content="Элегантный шахматный салон: сыграйте партию против компьютера, изучите классические дебюты и пять веков истории игры королей.">
+<meta name="theme-color" content="#100e0b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23171410'/%3E%3Ctext%20x='32'%20y='47'%20font-size='40'%20text-anchor='middle'%20fill='%23c9a45c'%3E%E2%99%9E%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">♞︎</span>Гамбит</a>
+  <nav class="topnav" aria-label="Основная навигация">
+    <a href="#play">Партия</a>
+    <a href="#openings">Дебюты</a>
+    <a href="#history">История</a>
+  </nav>
+  <a class="btn btn-primary btn-sm" href="#play">Сыграть</a>
+</header>
+
+<main id="top">
+
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text reveal">
+        <p class="eyebrow">Шахматный салон</p>
+        <h1>Игра <em>королей</em>, открытая каждому</h1>
+        <p class="lede">Полторы тысячи лет истории, число Шеннона и шестьдесят четыре клетки —
+        всё, что нужно для бесконечной красоты. Сыграйте партию прямо в браузере
+        или неспешно изучите классические дебюты.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#play">Сыграть партию</a>
+          <a class="btn" href="#openings">Изучить дебюты</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-value">64</span><span class="stat-label">клетки доски</span></div>
+          <div class="stat"><span class="stat-value">32</span><span class="stat-label">фигуры в начале</span></div>
+          <div class="stat"><span class="stat-value">10<sup>120</sup></span><span class="stat-label">вариантов партии</span></div>
+          <div class="stat"><span class="stat-value">600&#8239;млн</span><span class="stat-label">игроков в мире</span></div>
+        </div>
+      </div>
+      <div class="hero-art reveal" aria-hidden="true">
+        <div class="hero-board"></div>
+        <span class="hero-knight">♞︎</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PLAY ======================= -->
+  <section id="play" class="section">
+    <div class="container">
+      <header class="section-head reveal">
+        <span class="num" aria-hidden="true">01</span>
+        <div>
+          <h2>Партия за доской</h2>
+          <p>Полные правила: рокировка, взятие на проходе и превращение пешки в ферзя.
+          Играйте против компьютера на трёх уровнях или с другом на одном устройстве.</p>
+        </div>
+      </header>
+
+      <div class="playground reveal" data-engine>
+        <div class="board-side">
+          <div class="board-frame">
+            <div class="board" id="board" aria-label="Шахматная доска"></div>
+          </div>
+          <p class="hint">Выберите фигуру, затем клетку хода. Превращение — автоматически в ферзя.</p>
+        </div>
+
+        <aside class="panel" aria-label="Пульт партии">
+          <p class="status" id="status" data-state="turn" aria-live="polite">Ход белых.</p>
+
+          <div class="panel-group">
+            <span class="lbl">Режим</span>
+            <div class="seg" role="group" aria-label="Режим игры">
+              <button type="button" id="modeAI" aria-pressed="true">С компьютером</button>
+              <button type="button" id="modeHuman" aria-pressed="false">Два игрока</button>
+            </div>
+          </div>
+
+          <div class="panel-group ai-only" id="groupSide">
+            <span class="lbl">Ваш цвет</span>
+            <div class="seg" role="group" aria-label="Ваш цвет">
+              <button type="button" id="sideW" aria-pressed="true">Белые</button>
+              <button type="button" id="sideB" aria-pressed="false">Чёрные</button>
+            </div>
+          </div>
+
+          <div class="panel-group ai-only" id="groupLevel">
+            <span class="lbl">Сила компьютера</span>
+            <div class="seg" role="group" aria-label="Сила компьютера">
+              <button type="button" data-level="1" aria-pressed="false">Легко</button>
+              <button type="button" data-level="2" aria-pressed="true">Обычно</button>
+              <button type="button" data-level="3" aria-pressed="false">Сложно</button>
+            </div>
+          </div>
+
+          <div class="panel-actions">
+            <button type="button" class="btn btn-primary btn-sm" id="btnNew">Новая партия</button>
+            <button type="button" class="btn btn-sm" id="btnUndo">Отменить ход</button>
+            <button type="button" class="btn btn-sm" id="btnFlip">Развернуть</button>
+          </div>
+
+          <div class="captured">
+            <div class="cap-row">
+              <span class="cap-who">Белые взяли</span>
+              <span class="cap-glyphs" id="capW">—</span>
+              <span class="cap-adv" id="advW"></span>
+            </div>
+            <div class="cap-row">
+              <span class="cap-who">Чёрные взяли</span>
+              <span class="cap-glyphs" id="capB">—</span>
+              <span class="cap-adv" id="advB"></span>
+            </div>
+          </div>
+
+          <div class="moves-wrap">
+            <span class="lbl">Ходы</span>
+            <div class="moves" id="movesList" aria-label="История ходов"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= OPENINGS ======================= -->
+  <section id="openings" class="section">
+    <div class="container">
+      <header class="section-head reveal">
+        <span class="num" aria-hidden="true">02</span>
+        <div>
+          <h2>Дебютный салон</h2>
+          <p>Первые ходы задают характер всей партии. Выберите дебют — и просмотрите его
+          на доске, шаг за шагом.</p>
+        </div>
+      </header>
+
+      <div class="opening-layout reveal" data-engine>
+        <div class="opening-cards" id="openingCards" role="list" aria-label="Классические дебюты"></div>
+
+        <div class="demo">
+          <div class="board-frame board-frame-sm">
+            <div class="board" id="demoBoard" aria-label="Демонстрационная доска"></div>
+          </div>
+          <div class="demo-bar">
+            <div class="stepper" role="group" aria-label="Управление просмотром">
+              <button type="button" class="icon-btn" id="demoReset" title="В начало" aria-label="В начало">⟲</button>
+              <button type="button" class="icon-btn" id="demoPrev" title="Ход назад" aria-label="Ход назад">‹</button>
+              <button type="button" class="icon-btn icon-play" id="demoPlay" title="Проиграть" aria-label="Проиграть">▶</button>
+              <button type="button" class="icon-btn" id="demoNext" title="Ход вперёд" aria-label="Ход вперёд">›</button>
+            </div>
+            <p class="demo-caption" id="demoCaption" aria-live="polite">Выберите дебют</p>
+          </div>
+          <div class="demo-pills" id="demoPills"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= HISTORY ======================= -->
+  <section id="history" class="section">
+    <div class="container">
+      <header class="section-head reveal">
+        <span class="num" aria-hidden="true">03</span>
+        <div>
+          <h2>Пять веков эволюции</h2>
+          <p>Путь от индийской военной игры до состязания нейросетей — в восьми вехах.</p>
+        </div>
+      </header>
+
+      <ol class="timeline reveal">
+        <li>
+          <span class="tl-year">~ VI век · Индия</span>
+          <h3>Чатуранга</h3>
+          <p>Игра на 64 клетках с четырьмя родами войск — пехотой, конницей, колесницами и слонами.
+          Именно она станет матерью всех шахмат.</p>
+        </li>
+        <li>
+          <span class="tl-year">VII век · Персия</span>
+          <h3>Шатрандж</h3>
+          <p>Персы дают игре её язык: «шах» — царь, а «шах-мат» значит «владыка бессилен».
+          Эти слова не менялись пятнадцать веков.</p>
+        </li>
+        <li>
+          <span class="tl-year">XV век · Европа</span>
+          <h3>«Безумная игра»</h3>
+          <p>Ферзь становится сильнейшей фигурой, партии укорачиваются втрое. В 1497 году выходит
+          первый печатный трактат о дебютах — книга Луиса Рамиреса де Лусены.</p>
+        </li>
+        <li>
+          <span class="tl-year">1851 · Лондон</span>
+          <h3>Первый международный турнир</h3>
+          <p>Адольф Андерсен побеждает и в том же году играет «Бессмертную партию»,
+          жертвуя ферзя и обе ладьи ради мата.</p>
+        </li>
+        <li>
+          <span class="tl-year">1886</span>
+          <h3>Первый чемпион мира</h3>
+          <p>Вильгельм Стейниц обыгрывает Цукертортона и становится первым официальным
+          обладателем титула — самого почётного в игре.</p>
+        </li>
+        <li>
+          <span class="tl-year">1972 · Рейкьявик</span>
+          <h3>«Матч века»</h3>
+          <p>Роберт Фишер против Бориса Спасского: холодная война за 64 клетками,
+          шахматы впервые на первых полосах мировых газет.</p>
+        </li>
+        <li>
+          <span class="tl-year">1997 · Нью-Йорк</span>
+          <h3>Deep Blue</h3>
+          <p>Компьютер IBM выигрывает матч у Гарри Каспарова — человечество уступает машине
+          в чистом расчёте, но не в замысле.</p>
+        </li>
+        <li>
+          <span class="tl-year">Сегодня</span>
+          <h3>Золотой век</h3>
+          <p>Шестьсот миллионов игроков, онлайн-платформы, стримы и нейросети-тренеры:
+          шахматы доступны каждому — и остаются игрой королей.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======================= QUOTE ======================= -->
+  <section class="quote reveal">
+    <div class="container">
+      <blockquote>
+        <p>Шахматы, подобно любви, подобно музыке, обладают силой сделать человека счастливым.</p>
+        <cite>Зигберт Тарраш</cite>
+      </blockquote>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">♞︎</span>Гамбит</a>
+    <nav class="topnav" aria-label="Навигация в подвале">
+      <a href="#play">Партия</a>
+      <a href="#openings">Дебюты</a>
+      <a href="#history">История</a>
+    </nav>
+    <p class="fineprint">© 2026 «Гамбит». Сделано с любовью к шестидесяти четырём клеткам.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
