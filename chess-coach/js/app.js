@@ -38,6 +38,28 @@
     burger.setAttribute('aria-expanded', 'false');
   });
 
+  /* ---------- Липкая кнопка записи на мобильных ---------- */
+
+  const mobileCta = $('#mobileCta');
+  const contactSection = $('#contact');
+
+  if (mobileCta && contactSection) {
+    let ctaTicking = false;
+    const updateCta = () => {
+      ctaTicking = false;
+      const rect = contactSection.getBoundingClientRect();
+      // Показываем после прокрутки мимо героя и прячем у самой формы
+      const show = window.scrollY > 480 && rect.top > window.innerHeight * 0.6;
+      mobileCta.classList.toggle('show', show);
+    };
+    window.addEventListener('scroll', () => {
+      if (ctaTicking) return;
+      ctaTicking = true;
+      requestAnimationFrame(updateCta);
+    }, { passive: true });
+    updateCta();
+  }
+
   /* ---------- Форма записи ---------- */
 
   const form = $('#lessonForm');
